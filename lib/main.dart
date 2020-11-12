@@ -49,7 +49,7 @@ class _MyHomePageState extends State<MyHomePage> {
         child: Column(
           children: [
             Text(
-              "hola mamá! estoy en vivo",
+              "hola mamá! estoy en vivó",
               style: TextStyle(
                   color: Color(0xFFbbaacc),
                   backgroundColor:
