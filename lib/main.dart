@@ -12,7 +12,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'Flutter Demo', //nombre de app
       theme: ThemeData(
         primarySwatch: Colors.blue,
         visualDensity: VisualDensity.adaptivePlatformDensity,
@@ -31,70 +31,47 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
-
-  void _incrementCounter() {
-    setState(() {
-      _counter++;
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return new Scaffold(
       appBar: AppBar(
-        title: Text(widget.title),
+        title: Container(
+          color: Colors.red,
+          child: Text("hola"),
+        ),
+        actions: [Text("asdasdasdsad")],
+        backgroundColor: Colors.green,
+        elevation: 4,
       ),
-      body: Center(
-        child: FutureBuilder(
-            future: getTwittsResponse(),
-            builder: (ctx, snapshot) {
-              if (snapshot.connectionState == ConnectionState.done) {
-                var list = getTwitts(snapshot.data);
-                return ListView(
-                  children: list
-                      .map<Widget>((t) => Text("Twitt: ${t.content}"))
-                      .toList(),
-                );
-              } else
-                return Text("no twits");
-            }),
+      body: Container(
+        color: Colors.deepPurple,
+        width: double.infinity,
+        child: Column(
+          children: [
+            Text(
+              "hola mamá! estoy en vivo",
+              style: TextStyle(
+                  color: Color(0xFFbbaacc),
+                  backgroundColor:
+                      Color.fromARGB(255, 52, 44, 150)), //#bbaaccFF
+            ),
+            Text("Hola papá"),
+            Row(
+              children: [
+                Column(
+                  children: [Icon(Icons.verified_user), Text("nombre")],
+                ),
+                Icon(Icons.car_repair),
+                Text("qwewqewqewqe"),
+                Container(
+                    color: Colors.blue,
+                    child: Image.network(
+                        "https://diprece.minsal.cl/wp-content/uploads/2015/12/Android.png"))
+              ],
+            )
+          ],
+        ),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: Icon(Icons.add),
-      ), // This trailing comma makes auto-formatting nicer for build methods.
     );
-  }
-
-  Future<Response> getTwittsResponse() async {
-    String url =
-        'http://django-env.eba-7mzjkynm.us-west-2.elasticbeanstalk.com/api/v1/twitts/';
-    return await http.get(
-      '$url',
-      headers: {HttpHeaders.contentTypeHeader: 'application/json'},
-    );
-  }
-
-  List<Twitt> getTwitts(Response response) {
-    var json = convert.jsonDecode(response.body);
-    List<Twitt> twitts = json.map<Twitt>(Twitt.fromJSON).toList();
-    return twitts;
-  }
-}
-
-class Twitt {
-  String content;
-  DateTime createAt;
-  String authorRef;
-
-  Twitt({this.content, this.createAt, this.authorRef});
-
-  static Twitt fromJSON(dynamic json) {
-    return new Twitt(
-        content: json['content'],
-        createAt: DateTime.parse(json['created_on']),
-        authorRef: json['author']);
   }
 }
